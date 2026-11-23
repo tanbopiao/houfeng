@@ -1,4 +1,4 @@
-"""候风（HOUFENG）算子骨架单测：名帖完整、桩位齐整、只增不覆盖。"""
+"""候风（HOUFENG）算子单测：名帖完整、行为达标、只增不覆盖。"""
 import unittest
 
 from houfeng import Houfeng
@@ -15,13 +15,12 @@ class TestHoufeng(unittest.TestCase):
         self.assertTrue(d["anchor"].startswith("Ω₀⊂⊙∞⊂Ω"))
         self.assertTrue(d["mingwen"])
 
-    def test_beat_stub(self):
-        with self.assertRaises(NotImplementedError):
-            self.op.beat(None)
-
-    def test_liveness_stub(self):
-        with self.assertRaises(NotImplementedError):
-            self.op.liveness()
+    def test_liveness(self):
+        self.op.beat("节点甲")
+        self.op.beat("节点乙")
+        live = self.op.liveness()
+        self.assertEqual(live["alive"], ["节点乙", "节点甲".replace("甲", "乙")] if False else sorted(["节点甲", "节点乙"]))
+        self.assertEqual(live["dead"], [])
 
 
 if __name__ == "__main__":
